@@ -13,6 +13,10 @@ const App: FC = () => {
     setIsShowResult(true);
   };
 
+  const onInputChandeHandler = () => {
+    setIsShowResult(false);
+  };
+
   return (
     <>
       <form
@@ -21,12 +25,13 @@ const App: FC = () => {
         <input
           name="input"
           type="text"
+          onChange={onInputChandeHandler}
         />
         <button type="submit">get min sum</button>
       </form>
       {
         isShowResult && <div>
-          {result}
+          Result: {result}
         </div>
       }
     </>
