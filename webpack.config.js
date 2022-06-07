@@ -2,8 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
@@ -55,6 +53,23 @@ module.exports = {
         loader: "ts-loader",
         exclude: /node_modules/
       },
+      {
+        test: /\.css$/i,
+        use: [
+          { loader: devMode ? "style-loader" : MiniCssExtractPlugin.loader },
+          { loader: "css-modules-typescript-loader",
+            options: {
+              mode: process.env.CI ? 'verify' : 'emit'
+            } 
+          },
+          { loader: "css-loader", options: { modules: {
+            mode: "local",
+            auto: true,
+            exportGlobals: true,
+            localIdentName: "[name]__[local]--[hash:base64:5]",
+          } } }
+        ]
+      },
     ]
   },
   plugins: [
@@ -63,6 +78,10 @@ module.exports = {
       template: path.resolve(__dirname, "./public/index.html"),
       favicon: path.resolve(__dirname, "./public/favicon.ico"),
       cache: true
-    })
+    }),
+    new MiniCssExtractPlugin( {
+      filename: `static/css/${devMode ? "[name].css" : "[name].[contenthash].css"}`,
+      chunkFilename: `static/css/${devMode ? "[id].css" : "[id].[contenthash].css"}` 
+    }),
   ]
 };

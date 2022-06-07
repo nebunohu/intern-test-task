@@ -1,6 +1,9 @@
 import { FC, FormEvent, useState } from "react";
 import getMinSum from "../../utils/get-min-sum";
 
+// Styles
+import styles from './app.modules.css';
+
 const App: FC = () => {
   const [isShowResult, setIsShowResult] = useState(false);
   const [result, setResult] = useState<number | string | null >(null);
@@ -18,7 +21,7 @@ const App: FC = () => {
   };
 
   return (
-    <>
+    <div className={`${styles.wrapper}`}>
       <form
         onSubmit={onSubmitHandler}
       >
@@ -30,11 +33,11 @@ const App: FC = () => {
         <button type="submit">Get min sum</button>
       </form>
       {
-        isShowResult && <div>
+        isShowResult && <div className={`${styles.result}`}>
           Result: {result}
         </div>
       }
-    </>
+    </div>
   );
 };
 
