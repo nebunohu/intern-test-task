@@ -27,7 +27,7 @@ const App: FC = () => {
           type="text"
           onChange={onInputChandeHandler}
         />
-        <button type="submit">get min sum</button>
+        <button type="submit">Get min sum</button>
       </form>
       {
         isShowResult && <div>
